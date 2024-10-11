@@ -1,10 +1,22 @@
 <?php
 session_start();
 
-// Check if the user is logged in
-if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
-    header("Location: login.php"); // Redirect to login page if not logged in
-    exit();
+if (isset($_POST['submit'])) {
+    $username = $_POST['username'];
+    $password = $_POST['password'];
+
+    // Hardcoded credentials (you can replace these with a database later)
+    $valid_username = 'user';
+    $valid_password = 'password';
+
+    // Check if the username and password match the hardcoded credentials
+    if ($username === $valid_username && $password === $valid_password) {
+        $_SESSION['loggedin'] = true;
+        header("Location: game.php"); // Redirect to the game page
+        exit();
+    } else {
+        $error = "Invalid username or password";
+    }
 }
 ?>
 
@@ -13,26 +25,27 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rock Paper Scissors Game 73a4f41d </title>
+    <title> 73a4f41d </title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h1>Rock Paper Scissors Game</h1>
-    <div class="game-container">
-        <div class="choices">
-            <button id="rock" onclick="playGame('rock')">Rock</button>
-            <button id="paper" onclick="playGame('paper')">Paper</button>
-            <button id="scissors" onclick="playGame('scissors')">Scissors</button>
-        </div>
+    <h1>Please Log In</h1>
+    <div class="login-container">
+        <form action="login.php" method="POST">
+            <label for="username">Username:</label>
+            <input type="text" name="username" id="username" required><br>
 
-        <div id="result">
-            <p id="message">Make your choice!</p>
-            <p id="computer-choice"></p>
-            <p id="user-choice"></p>
-            <p id="winner"></p>
-        </div>
+            <label for="password">Password:</label>
+            <input type="password" name="password" id="password" required><br>
+            <button > <a href="game.php"> Please log in </a></button>
+            
+        </form>
+
+        <?php
+        if (isset($error)) {
+            echo "<p style='color:red;'>$error</p>";
+        }
+        ?>
     </div>
-
-    <script src="script.js"></script>
 </body>
 </html>
